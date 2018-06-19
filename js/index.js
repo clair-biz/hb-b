@@ -639,11 +639,11 @@ $('[data-toggle="tooltip"]').tooltip();
             
     function isAvailable(href,data,type) {
 //console.log("href "+href);
-//console.log("data "+data);
+//console.log("type "+type);
 var message="";
-if(type=="product")
+if(type=="Product")
     message="No Vendors available right now!";
-if(type=="service")
+if(type=="Service")
     message="No Service Providers available right now!";
 
 console.log("data -"+data+"-");
@@ -753,6 +753,7 @@ $(document).add(".form-cart").ready(function() {
         console.log("in 5 datepicker");
 //    var lead=1;
     var val=$(".dt").attr("data-lead");
+    console.log("dtt->"+val+"-");
     var d = new Date(val);
     console.log("dtt->"+d+"-");
 //    if(typeof(val)!=="undefined" && val!=="")

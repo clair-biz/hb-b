@@ -13,7 +13,7 @@ $type="prod";
 $cs_name="";
 $min_qty=0;
 $min_unit="";
-$str="select product.prod_id as 'prod_id', `prod_name`,prod_desc,cs_name,cat_name, bname as 'vendor',vend_rating,'".Base::getDiscount($prod_id, 1)."' as 'mrp',vend_rating_off,prod_unit,prod_qty,product.prod_min_time as 'prod_min_time',mrp_for,mrp_unit,product.vs_id as 'vs_id',vs_pay_status,prod_replace,prod_return,r_within,prod_img,date_format( date_add(now(),interval prod_min_time day), '%d-%m-%Y' ) as 'lead_time' from  product,cat_sub,vendor,category,product_price,vend_subscription,users,tax_table WHERE tax_table.hsn_code=product.hsn_code and vend_subscription.u_id=users.u_id and vendor.vend_id=users.vend_id and category.cat_id=cat_sub.cat_id and cat_sub.cs_id=product.cs_id and product_price.prod_id=product.prod_id and vend_subscription.vs_id=product.vs_id and product.prod_id=".$prod_id.";";
+$str="select product.prod_id as 'prod_id', `prod_name`,prod_desc,cs_name,cat_name, bname as 'vendor',vend_rating,'".Base::getDiscount($prod_id, 1)."' as 'mrp',vend_rating_off,prod_unit,prod_qty,product.prod_min_time as 'prod_min_time',mrp_for,mrp_unit,product.vs_id as 'vs_id',vs_pay_status,prod_replace,prod_return,r_within,prod_img,date_format( date_add(now(),interval prod_min_time day), '%Y-%m-%d' ) as 'lead_time',date_format( date_add(now(),interval prod_min_time day), '%d-%m-%Y' ) as 'lead_time_display' from  product,cat_sub,vendor,category,product_price,vend_subscription,users,tax_table WHERE tax_table.hsn_code=product.hsn_code and vend_subscription.u_id=users.u_id and vendor.vend_id=users.vend_id and category.cat_id=cat_sub.cat_id and cat_sub.cs_id=product.cs_id and product_price.prod_id=product.prod_id and vend_subscription.vs_id=product.vs_id and product.prod_id=".$prod_id.";";
 //echo $str;
 $proddetailsres=Base::generateResult($str);
 //$proddetailsres=$obj->getProductDetails($prod_id);
@@ -176,7 +176,7 @@ $proddetailsres=Base::generateResult($str);
 //        if($prod_details[4]=="Food Items") {
         ?>
     <label class="left" style="font-weight: 500;">Required on</label>
-    <input id="<?php echo "reqd_".$prod_details["prod_id"]; ?>" readonly data-lead="<?php echo $prod_details["lead_time"]; ?>" name="reqd" type="text" value="<?php echo $prod_details["lead_time"]; ?>" data-toggle="datepicker" class="datepicker dt form-control"   required />
+    <input id="<?php echo "reqd_".$prod_details["prod_id"]; ?>" readonly data-lead="<?php echo $prod_details["lead_time"]; ?>" name="reqd" type="text" value="<?php echo $prod_details["lead_time_display"]; ?>" data-toggle="datepicker" class="datepicker dt form-control"   required />
     <?php
 //    }
     ?>

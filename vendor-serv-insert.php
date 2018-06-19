@@ -24,7 +24,7 @@ $cat=Base::generateResult("select cs_id,cs_name from cat_sub,category,vend_subsc
                     ?>
                     </div>
     <div class="col-md-10 card">
-    <form class="form-horizontal" id="serv-insert" action="vendor-serv-insert1.php" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" id="serv-insert" method="post" enctype="multipart/form-data">
          <div class="row">
                     <h5 class="page-header text-center container">Add New Service</h5>
                 <!-- /.col-lg-12 -->

@@ -783,7 +783,7 @@ elseif($noofmonths>12) {
         $obj=new Base;
 //    $qty=Base::convertToMajor($qty, $unit);
 if($row==0)
-    $prodcat1 ="SELECT mrp+(mrp*(tax_table.cgst/100))+(mrp*(tax_table.sgst/100))+ (mrp*(tax_table.cess/100))  from product_price,tax_table,product WHERE product.prod_id=product_price.prod_id and tax_table.hsn_code=product.hsn_code and product.prod_id=$prod_id";
+    $prodcat1 ="SELECT mrp+(mrp*(tax_table.cgst/100))+(mrp*(tax_table.sgst/100))+ (((mrp*(tax_table.cgst/100))+(mrp*(tax_table.sgst/100)))*(tax_table.cess/100))  from product_price,tax_table,product WHERE product.prod_id=product_price.prod_id and tax_table.hsn_code=product.hsn_code and product.prod_id=$prod_id";
 elseif($row==1)
     $prodcat1 ="SELECT mrp  from product_price,tax_table,product WHERE product.prod_id=product_price.prod_id and tax_table.hsn_code=product.hsn_code and product.prod_id=$prod_id";
 //    echo $prodcat1;
