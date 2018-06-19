@@ -1,0 +1,62 @@
+nav .nav-link {
+    color: black !important;
+}
+
+nav .nav-item:hover {
+    background-color: #009846 !important;
+    color: white !important;
+}
+nav .no-hover:hover {
+    background-color: #fff !important;
+}
+
+nav .no-hover .focus:hover ,
+nav .focus .nav-link:hover {
+    color: #000 !important;
+    font-weight: 600 !important;
+    background-color: #fff !important;
+}
+
+nav .nav-item .active {
+    background-color: #009846 !important;
+    color: white !important;
+}
+nav .nav-link:hover {
+    color: white !important;
+}
+
+.head-block .nav-link, .head-block .nav-link span a {
+    padding-bottom: 0 !important;
+    line-height: .2rem !important;
+    color: white !important;
+    font-size: .9rem !important;
+}
+
+.head-block .nav-link span a {
+    font-weight: 600 !important;
+text-decoration: underline;
+}
+
+
+/* CSS used here will be applied after bootstrap.css *
+.navbar-nav.navTop {
+    margin-bottom: 0;
+}
+.navTop > li.btn-group.show {
+    position: static;
+}
+.navTop > li.btn-group.show .dropdown-menu {
+    display:block;
+    left:0; right:0;
+    border-top: 0 !important;
+    margin-top: 0 !important;
+}
+.dropdown-menu>a {
+    display: table-cell;
+}*
+
+#bloodhound .typeahead {
+  margin: 0 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+}*/

@@ -1,0 +1,29 @@
+{
+    "name": "fluency/mpdf",
+    "description": "mPDF wrapper",
+    "keywords": [
+        "pdf", "mPDF", "office"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rafael Ernesto Espinosa Santiesteban",
+            "email": "ralphlnx@gmail.com"
+        }
+    ],
+	"autoload":{
+		"psr-4": {
+			"Fluency\\Bridge\\" : "src/"
+		}
+	},
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.3.3",
+        "mpdf/mpdf":"~6.0",
+        "symfony/http-foundation":"~2.6"
+	},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "~2.0",
+        "phpunit/phpunit": "~4.5"
+    }
+}

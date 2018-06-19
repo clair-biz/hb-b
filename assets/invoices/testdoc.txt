@@ -1,0 +1,10 @@
+ins_dt to lead_time -1
+
+select ordertbl.ord_id,ordertbl.req_dt,ordertbl.ins_dt,DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY) from product,ordertbl,order_detail where ordertbl.ord_id=order_detail.ord_id and now() BETWEEN ordertbl.ins_dt and DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY)
+
+lead_time to req_dt 
+
+select ordertbl.ord_id,product.prod_id,ordertbl.req_dt,ordertbl.ins_dt,DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY) from product,ordertbl,order_detail where ordertbl.ord_id=order_detail.ord_id and product.prod_id=order_detail.prod_id and now() BETWEEN DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY) and ordertbl.req_dt
+
+
+select ordertbl.ord_id,ordertbl.ins_dt,now(),ordertbl.req_dt,DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY),datediff(DATE_SUB(ordertbl.req_dt, INTERVAL prod_min_time DAY),now()),datediff(ordertbl.req_dt,now()) from product,ordertbl,order_detail where ordertbl.ord_id=order_detail.ord_id and order_detail.prod_id=product.prod_id and  ordertbl.ord_id=37
