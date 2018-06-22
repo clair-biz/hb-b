@@ -212,24 +212,41 @@ public static function prodServList($type){
     $products=array();
     $services=array();
     if($type=="Product") {
-    $strQuery4="select distinct prod_name from product where prod_id<>0";
+    $strQuery4="select distinct prod_name as 'name' from product where prod_id<>0";
 //    echo $strQuery4; 
     $res=mysqli_query($obj->con,$strQuery4);
-//    $products= mysqli_fetch_all($res,MYSQLI_ASSOC);
-        while($row= mysqli_fetch_array($res))
-            array_push ($products, $row[0]);
+    $products= mysqli_fetch_all($res,MYSQLI_ASSOC);
+//        while($row= mysqli_fetch_array($res))
+//            array_push ($products, $row[0]);
     }
     elseif($type=="Service") {
-    $strQuery4="select distinct serv_name from service where serv_id<>0";
+    $strQuery4="select distinct serv_name as 'name' from service where serv_id<>0";
 //    echo $strQuery4; 
     $res=mysqli_query($obj->con,$strQuery4);
-//    $services= mysqli_fetch_all($res,MYSQLI_ASSOC);
-        while($row= mysqli_fetch_array($res))
-            array_push ($products, $row[0]);
+    $products= mysqli_fetch_all($res,MYSQLI_ASSOC);
+//        while($row= mysqli_fetch_array($res))
+//            array_push ($products, $row[0]);
     }
                  
     return json_encode($products );
 //    return json_encode(array("products"=>$products,"services"=>$services) );
+}
+
+
+public static function prodServRedirect($searchVal){
+    $obj=new Base;
+    $strQuery4="select count(distinct prod_name) from product where prod_id<>0 and prod_name like '%$searchVal%'; ";
+//    echo $strQuery4; 
+    $res=mysqli_query($obj->con,$strQuery4);
+        if($row= mysqli_fetch_array($res))
+                if($row[0]>0)
+                    return "Products";
+    $strQuery4="select count(distinct serv_name) from service where serv_id<>0 and serv_name like '%$searchVal%'; ";
+//    echo $strQuery4; 
+    $res=mysqli_query($obj->con,$strQuery4);
+        if($row= mysqli_fetch_array($res))
+                if($row[0]>0)
+                    return "Services";
 }
 
 

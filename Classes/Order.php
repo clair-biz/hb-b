@@ -85,15 +85,18 @@ public function CartInsert() {
             $q="insert into cart(cust_id,prod_id,qty,req_dt,bs_id,ins_dt,ins_usr) values(".$this->cust_id.",".$this->prod_id.",".$this->qty.",cast(N'".$this->req_on."' as date),".$this->bs_id.",now(),'".$this->user."')";
         }
         elseif($count>0) {
+            if($this->cart_id!="")
+                $cart_id= $this->cart_id;
+            else
             $cart_id=Order::getCartId($this->cust_id, $this->prod_id, $this->req_on, $this->bs_id);
-            $q0="select qty from cart where cart_id=$cart_id";
+/*            $q0="select qty from cart where cart_id=$cart_id";
             echo $q0;
             $res=Base::generateResult($q0);//Base::generateResult($q0);
             if($row= mysqli_fetch_array($res)) {
                 $this->qty= $this->qty+$row[0];
             }
-
-        $q="update cart set qty=".$this->qty." where cart_id=$cart_id;";
+*/
+        $q="update cart set qty=".$this->qty.",req_dt=cast(N'".$this->req_on."' as date), bs_id='".$this->bs_id."' where cart_id=$cart_id;";
         }
         echo $q;
     if(Base::generateResult($q)) {
@@ -102,6 +105,7 @@ public function CartInsert() {
 //                 mysqli_close($this->con);
 	return $ret;
 }
+
 public static  function newOrdId() {
     $obj=new Base;
     $out=1;
@@ -319,6 +323,7 @@ and ordertbl.ord_id=$ord_id and product.prod_id=$prod_id;";
 //    echo $query;
     $res=Base::generateResult($query);
     $nos=0;
+    if(mysqli_fetch_array($res))
     $nos= mysqli_num_rows($res);
 //	 if($row=mysqli_fetch_array($res))
 //		$ret=$row[0];

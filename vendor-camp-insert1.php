@@ -26,15 +26,7 @@ require_once 'data.php';
 //if($m->canInsert())
 //    $cc=$m->Insert();
 if($m->insert()){
-   $camp_id=Campaign::getcampidbyname($camp_name);
-//   echo $camp_id;
-   $v=Base::getcattypebyuname($user->u_name);
-   if($v == 'Product') {
        echo "success";
-   }
-   else  {
-echo 'error';
-}
 }
 else {
 echo "error";

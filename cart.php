@@ -39,8 +39,8 @@ echo "<script>console.log('cart-". serialize($cart)."-');</script>";
 ?>
 
         
-    <div class="container-fluid mx-5" style="margin-top: 40px;">
-        <div class="card border-0" >
+    <div class="container-fluid" style="margin-top: 40px;">
+        <div class="card border-0 mx-5" >
             <div class="card-body" >
             <h4>My Cart (<span class="cartdata"></span>)</h4>
             <div class="cart-items" style="min-height: 60vh;" >
@@ -50,7 +50,7 @@ echo "<script>console.log('cart-". serialize($cart)."-');</script>";
                 if(sizeof($cart)>0 && $cart!="") {
                             foreach ($cart as $item) {
 
-                                $query="SELECT distinct product.prod_id as 'prod_id', prod_name,".$item->qty.",'".Base::getDiscount($item->prod_id, $item->qty)."' as 'mrp',bname,prod_desc,prod_img,product.prod_unit,prod_qty from tax_table,customer,product,product_price,users,vendor,vend_subscription WHERE tax_table.hsn_code=product.hsn_code and product.vs_id=vend_subscription.vs_id and vendor.vend_id=users.vend_id and vend_subscription.u_id=users.u_id  and product_price.prod_id=product.prod_id and product.prod_id=".$item->prod_id.";";
+                                $query="SELECT distinct product.prod_id as 'prod_id', prod_name,'".Base::getDiscount($item->prod_id, 1)."' as 'rate',".$item->qty.",'".Base::getDiscount($item->prod_id, $item->qty)."' as 'mrp',bname,prod_desc,prod_img,product.prod_unit,prod_qty, date_format('".$item->req_on."', '%d-%m-%Y') as 'req_on' from tax_table,customer,product,product_price,users,vendor,vend_subscription WHERE tax_table.hsn_code=product.hsn_code and product.vs_id=vend_subscription.vs_id and vendor.vend_id=users.vend_id and vend_subscription.u_id=users.u_id  and product_price.prod_id=product.prod_id and product.prod_id=".$item->prod_id.";";
 //                echo $query;
                 $resprod= Base::generateResult( $query);
                 if($rowprod= mysqli_fetch_array($resprod)) {
@@ -67,7 +67,7 @@ echo "<script>console.log('cart-". serialize($cart)."-');</script>";
                                 
                                 <div class="col-md-4" >
                                     <p class="mb-1" style="font-weight: 600"><?php echo $rowprod["prod_name"]?></p>
-                                     <p class="mb-1"><?php echo $rowprod["prod_qty"]." ".$rowprod["prod_unit"]."- &#8377; ".$rowprod["mrp"]."/-";?></p>
+                                     <p class="mb-1"><?php echo $rowprod["prod_qty"]." ".$rowprod["prod_unit"]."- &#8377; ".$rowprod["rate"]."/-";?></p>
                                       <p  class="mb-1"><?php echo $rowprod["prod_desc"];?></p>
                                 </div>
                                 <div class="col-md-4">
@@ -81,7 +81,7 @@ echo "<script>console.log('cart-". serialize($cart)."-');</script>";
                                     <div class="input-group-prepend">
                                     <span class="input-group-text" for="cat">Required On:</span>
                                     </div>
-                                    <input type="text" data-toggle="datepicker" class="form-control can-change can-change-req" data-value="<?php echo $item->req_on; ?>" value="<?php echo $item->req_on; ?>" name="req" id="req" />
+                                    <input type="text" data-toggle="datepicker" class="form-control can-change can-change-req" data-value="<?php echo $item->req_on; ?>" value="<?php echo $rowprod["req_on"]; ?>" name="req" id="req" />
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -149,7 +149,7 @@ echo "<script>console.log('cart-". serialize($cart)."-');</script>";
 */            
  ?>
             </div>
-            <div class="container-fluid mx-5 card order-content" style="display: none">
+            <div class="container-fluid card border-0 order-content" style="display: none">
 <a href="<?php
 if($user!="" && !empty($user->cust_id))
 echo $root."OrderCheckOut";
@@ -161,7 +161,7 @@ else
 <?php
 //            }
  ?>
-            <div class="container-fluid mx-5 card nothing-content" style="display: none; min-height: 60vh;" >
+            <div class="container-fluid card border-0 nothing-content" style="display: none; min-height: 60vh;" >
                 <h5 class="text-center"><span class="msg">You do not have anything in Cart!</span><br /><br /><a href="<?php echo $root;?>" >Continue Shopping</a></h5>
             </div>
             

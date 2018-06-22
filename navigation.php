@@ -105,9 +105,11 @@ $strcities="SELECT distinct city_served FROM vend_subscription where vs_pay_stat
         
         <?php
         if(($user!="" && $user->type=="customer") || $user=="") { ?>
-      <li class="nav-item category-modals btn-group" id="category_product">
-      <a class="nav-link categories btn btn-link" data-type="Product" data-toggle="modal" data-target="#categoryProductModal" href="#">Products</a>
-      <a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="navbarproductdrop" data-toggle="dropdown">
+      <li class="nav-item category-modals btn-group" id="category_Product">
+      <a class="nav-link categories categories-link btn btn-link" data-type="Product" data-toggle="modal" data-target="#categoryProductModal" href="#">Products</a>
+      </li>
+      <li class="nav-item category-modals btn-group">
+      <a class="nav-link dropdown-toggle categories-link dropdown-toggle-split" href="#" id="navbarProductdrop" data-toggle="dropdown">
 <span class="caret"></span>
       </a>
       <div class="dropdown-menu">
@@ -118,9 +120,11 @@ $strcities="SELECT distinct city_served FROM vend_subscription where vs_pay_stat
       </div>
       </li>
             
-      <li class="nav-item category-modals btn-group" id="category_service">
-        <a class="nav-link categories btn btn-link" data-type="Service" data-toggle="modal" data-target="#categoryServiceModal" href="#">Services</a>
-      <a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="navbarservicedrop" data-toggle="dropdown">
+      <li class="nav-item category-modals btn-group" id="category_Service">
+        <a class="nav-link categories categories-link btn btn-link" data-type="Service" data-toggle="modal" data-target="#categoryServiceModal" href="#">Services</a>
+      </li>
+      <li class="nav-item category-modals btn-group">
+      <a class="nav-link dropdown-toggle categories-link dropdown-toggle-split" href="#" id="navbarServicedrop" data-toggle="dropdown">
 <span class="caret"></span>
       </a>
       <div class="dropdown-menu">
@@ -132,15 +136,11 @@ $strcities="SELECT distinct city_served FROM vend_subscription where vs_pay_stat
       </li>
             
       <li class="nav-item no-hover ml-5">
-        <form class="form-inline mb-0" action="/action_page.php">
-            <div class="input-group" id="bloodhound" style="height: 2.5rem;" >
-                <input class="form-control typeahead" style="width: 25vw;" type="text" placeholder="Search for Products, Services and more">
-    <div class="input-group-append">
-        <div class="input-group-text bg-success p-0" >
-            <button class="btn btn-success p-0" type="submit"><i class="material-icons p-1">search</i></button>
-      </div>
-    </div>
-  </div>
+        <form class="form-inline mb-0 search-form" >
+            <div class="form-group inner-addon right-addon" id="bloodhound" style="height: 2.5rem;" >
+                <button class="search-btn btn btn-link p-0" type="submit"><i class="material-icons logo-color-g p-1" style="z-index: 1000;">search</i></button>
+                <input class="form-control typeahead" style="width: 25vw;" name="searchText" type="text" placeholder="Search for Products, Services and more">
+            </div>
         </form>
       </li>
             

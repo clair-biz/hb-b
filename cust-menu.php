@@ -23,7 +23,7 @@ require_once 'data.php';
                         </li>
                         <?php
                         if($user->type == "customer") { ?>
-                        <li class="list-group-item"><a href="<?php echo $root."MyOrders"; ?>">My Orders</a>
+                        <li class="list-group-item"><a href="<?php echo $root."MyOrders/"; ?>">My Orders</a>
                             
                         <?php 
                         }

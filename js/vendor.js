@@ -464,8 +464,7 @@ if ( ! $.fn.DataTable.isDataTable( '#dataTables-vendor-service' ) ) {
         
                     $("#serv-update").validate({
 				rules: {
-                                    sname: "required",
-					file: {
+                                   	file: {
                                             accept: "image/jpg,image/png,image/jpeg,image/gif",
                                             maxFileSize: {
                                                 "unit": "MB",
@@ -1330,9 +1329,12 @@ if ( ! $.fn.DataTable.isDataTable( '#dataTables-vendor-service' ) ) {
 					if(response.search("ok")>-1){
                                                 $("#submit-camp-update").prop('disabled', true);
                                 $("#camp-update").prepend("<p style='vertical-align:central;' class='text-center bg-info text-white'><i class='fa fa-exclamation' ></i> Update Successful!</p>").fadeIn().delay(5000).fadeOut();
-                                setTimeout(window.location.reload(), 3000);
+                                setTimeout(function() {
+                    window.location.reload();
+                                },3000);
 					}
 					else{
+                                $(".btns-block").prop('disabled', false);            
                                 $("#camp-update").prepend("<p style='vertical-align:central;' class='text-center bg-info text-white'><i class='fa fa-exclamation' ></i> Unable to Update! Please try again!</p>").fadeIn();
 
                                 }

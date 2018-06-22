@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once 'data.php';
        // SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd");
        // SimpleDateFormat d=new SimpleDateFormat("dd/MM/yyyy");
     $camp_id=$_REQUEST["camp"];
@@ -22,38 +22,19 @@ require_once 'header.php';
            }
            else
                $end_dt="";
-               $user =$_SESSION["user"];
-   $u_id=Crm::getuidbyuname($user);
-   $m=new Campaign($camp_name,$start_dt,$end_dt,$u_id,$user);
-   if($m->update($camp_id)>0) {    ?>
-   <script type="text/javascript">
-//        alert("Update Successful!");
-        $(document).ready(function() {
-                $("#modal-message").find(".modal-content").html("<p style='vertical-align:central;' class='center-align'>Update Successful!</p>");
-                $("#modal-message").modal("open");
-                $("#modal-message").find(".modal-close").click(function() {
-                    $("#modal-message").modal("close");
-                    var root="<?php echo Crm::root(); ?>";
-                    window.location.href=root+"UpdateOffer";
-                });
-                });
-    </script>
-    <?php
+               //$user =$_SESSION["user"];
+   $u_id=Base::getuidbyuname($user->u_name);
+   $m=new Campaign;
+ $m->camp_name=$camp_name;
+ $m->camp_start=$start_dt;
+ $m->camp_end=$end_dt;
+ $m->u_id=$u_id;
+ $m->user=$user->u_name;
+   if($m->update($camp_id)>0) {       
+       echo "success";
 }
 else {
-	echo mysqli_error(Crm::con());
-   ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-                $("#modal-message").find(".modal-content").html("<p style='vertical-align:central;' class='center-align'>Update Failed!</p>");
-                $("#modal-message").modal("open");
-                $("#modal-message").find(".modal-close").click(function() {
-                    $("#modal-message").modal("close");
-                    var root="<?php echo Crm::root(); ?>";
-                    window.location.href=root+"UpdateOffer";
-                });
-                });
-    </script>
-<?php 
+	 echo "error";
+    
 }
 ?> 

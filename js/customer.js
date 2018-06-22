@@ -697,7 +697,8 @@ $(document).add("#cust-register , #vend-register , #cust-update").ready(function
 			url: origin+"add-to-cart.php",
                         data: data,
 			beforeSend: function(){
-				product.append( form_status.html('<h5><i class="fa fa-spinner fa-spin"></i> Updating...</h5>').fadeIn() );
+                            product.prop("disabled",true);
+//				product.append( form_status.html('<h5><i class="fa fa-spinner fa-spin"></i> Updating...</h5>').fadeIn() );
 			},
                         success: function(response) {
                             

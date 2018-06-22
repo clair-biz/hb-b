@@ -76,7 +76,7 @@ public function Update($id){
 //      $r=true;
 //        }
      }
-//     echo $ename;
+     echo $ename;
     if(Base::generateMultiResult($ename))
     $r=true;
      

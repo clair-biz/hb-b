@@ -10,7 +10,7 @@ $type=$_REQUEST["type"];
 switch($type) {
     case "lead": {
 $todate="";
- $q="select count(*) from product where cast(N'".$req_dt."' as date)> date_add(now(), interval prod_min_time day) and prod_id=$prod";
+ $q="select count(*) from product where cast(N'".$req_dt."' as date)>= date_add(now(), interval prod_min_time day) and prod_id=$prod";
  echo $q;
  $pq=Base::generateResult($q);
  if($row=mysqli_fetch_array($pq)){

@@ -41,16 +41,16 @@ jQuery(function($) {'use strict';
                     success:function(response) {
                         $(".main-slider").html(response);
                     
-                    $(".main-slider").ready(function() {
+/*                    $(".main-slider").ready(function() {
                 $(".main-slider").slick({
-                    autoplay: true,
+//                    autoplay: true,
                     nextArrow: null,
                     prevArrow: null,
-                    autoplaySpeed: 2000,
+//                    autoplaySpeed: 2000,
                         lazyLoad: 'ondemand', // ondemand progressive anticipated
-                        infinite: true
+//                        infinite: true
                       });
-                });
+                });*/
                 }
             });
             }
@@ -259,12 +259,18 @@ console.log(inArr);
     
     }
     
-    function getCategoryMenu(val) {
+    function getCategoryMenu(val,type) {
                     
            console.log("in menu function");
-        
+        var url=origin;
+        switch(type) {
+            case "Product": url=url+"/product-menu.php?val="+val;
+                break;
+            case "Service": url=url+"/service-menu.php?val="+val;
+                break;
+        }
     $.ajax({
-       url: origin+"/product-menu.php?val="+val,
+       url: url,
        async: false,
        success: function(response) {
 //           console.log(response);
@@ -282,34 +288,78 @@ console.log(inArr);
                success: function(response) {
                    $(document).ready(function() {
                 $(".body").before(response);
+                
+                $(".search-form").ready(function() {
+                                     $(".search-form").validate({
+      rules: {
+                      searchText: "required"
+	   },
+       messages: {
+       },
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error);
+          } else {
+            error.insertAfter(element);
+          }
+        },
+	   submitHandler: submitSearchForm	
+       });  
+	   /* validation */
+	   
+	   /* login submit */
+	   function submitSearchForm() {
+			var data = $(".search-form").serialize();
+                        console.log("data "+data);
+			$.ajax({
+				
+			type : 'POST',
+			url  : origin+'/search.php',
+			data : data,
+			beforeSend: function() {	
+                            
+                        },
+                        success: function(response) {
+                            response=JSON.parse(response);
+                            console.log(response);
+                            console.log(response.type);
+                            setType(response.type.slice(0,-1));
+                            window.location.href=response.location;
+                        }
+                      
+                  });
+              }
+ 
+                });
+                
+                
                 $(".navbar .navbar-expand-md .sticky-top").ready(function() {
-                    prodServSearchList();
-        var varprod=localStorage.getItem("products");            
-//        var varserv=JSON.parse(localStorage.getItem("services"));            
-//console.log("prod-"+varprod+"-");        
-var products = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.whitespace,
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local : varprod
-//  prefetch: origin+"/prod-serv-search-list.php?type=Product&json=true"
-});
-//products.initialize();
+                    
 
-        console.log("products->"+products+"<-");
-/*
+                    
+                    
+                    //                    
+var products = new Bloodhound({
+    datumTokenizer: function (d) {
+        return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+  prefetch: origin+"/prod-serv-search-list.php?type=Product&json=true"
+});
+
 var services = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
+    datumTokenizer: function (d) {
+        return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
   prefetch: origin+"/prod-serv-search-list.php?type=Service&json=true"
 });
-*/
-//console.log("-"+origin+"/prod-serv-search-list.php?type=Product&json=true -");
-//console.log("service bloodhound-"+JSON.stringify(services)+"-");
-/*
-                if(typeof(products)==="Bloodhound" ) {
+
+
                     $('#bloodhound .typeahead').typeahead({
                         // minimum character length needed before suggestions start getting rendered.
-                        minLength: 3,
+                        minLength: 2,
                         //Highlights the matched string, in the result set.
                         highlight: true,
                         //If false, the typeahead will not show a hint in the text box (autocomplete).
@@ -317,43 +367,48 @@ var services = new Bloodhound({
                         },
                       {
                         name: 'products',
-                        displayKey: 'products',
-                        source: products.ttAdapter()/*,
+                        display: 'name',
+                        source: products.ttAdapter(),
                         templates: {
-                            header: '<h5 class="team">Products</h5>'
+                            header: '<h6 class="team">Products</h6>'
                         }
-                  }/*,
+                  },
                       {
-                        name: 'serv',
-                        display: 'team',
-                        source: services,
+                        name: 'services',
+                        display: 'name',
+                        source: services.ttAdapter(),
                         templates: {
-                            header: '<h5 class="team">Services</h5>'
+                            header: '<h6 class="team">Services</h6>'
                         }
-                  }*
-                    }
-                          );
+                  });
 
-                    console.log("gen");
-                }
-                else
-                    console.log("not gen");
-                    
-                  */  
+                  $(".tt-dataset-products .tt-selectable").on('click',function() {
+                      console.log("product clicked");
+                     $(".typeahead").attr("data-click","Product"); 
+                  });
+                  
+                  
+                  
                     getCityList(city);
                     setType(type);
                        $(".categories").removeClass("active");
-                       var type1=type.toLowerCase();
-                       $("#category_"+type1).find(".categories").addClass("active");
+                       $("#category_"+type).find(".categories").addClass("active");
+                       $("#navbar"+type+"drop").addClass("active");
                        
 
                     $(".categories").on('click',function() {
-                        console.log("in category change");
                        var changeType=$(this).attr("data-type");
-                       $(".categories").removeClass("active");
-                       $(this).addClass("active");
+                       $(".categories-link").removeClass("active");
+//                       $(this).addClass("active");
+                        console.log("in category change"+changeType);
+                       $("#category_"+changeType).find(".categories").addClass("active");
+                       $("#navbar"+changeType+"drop").addClass("active");
                        setType(changeType);
-                       if(path=="")
+                var pathh=window.location.pathname;
+                pathh=pathh.split("/");
+                pathh=pathh[1];
+                console.log("path=>"+pathh+"<=");
+                       if(pathh=="")
                        loadFiles(city,changeType);
                    else
                        window.location.href=origin;
@@ -417,7 +472,14 @@ var services = new Bloodhound({
             path=path.split("/");
             path=path[1];
             }
-
+/*            var p=["Products","Services"];
+            if(p.indexOf(path)>-1) {
+                console.log("in p-"+path+"-");
+                setType(path);
+                var city=Cookies.get("city");
+                loadFiles(city,path);
+            }
+*/
     //            $(document).ready(function() {
 var Default=["Services","Products","Cart","CustomerRegistration","VendorRegistration","About","FAQ","Contact","HowItWorks","StartSelling","Login","Logout","PrivacyPolicy","Terms","VerifyMobileNumber"];
 var Customer=["Services","Products","OrderCheckOut","MyOrders","CustomerProfile","CustomerRegistration","ForgotPassword","ChangePassword","Return"];
@@ -525,49 +587,6 @@ return type;
 
 
 
-        function prodServSearchList() {
-if (typeof(Storage) !== "undefined") {
-            
-            if(typeof(localStorage.products)==="undefined" 
-            && typeof(localStorage.services)==="undefined") {
-        		$.ajax({
-				
-			type : 'POST',
-			url  : origin+"/prod-serv-search-list.php?type=Product",
-			success :  function(response) {
-//                            response=JSON.parse(response);
-//                            console.log("response-"+JSON.parse(response)+"-");
-                            console.log("response-"+response+"-");
-                            localStorage.setItem("products",JSON.parse(response));
-//                            localStorage.setItem("services",response.services);
-                            }
-			});
-
-                    $.ajax({
-				
-			type : 'POST',
-			url  : origin+"/prod-serv-search-list.php?type=Service",
-			success :  function(response) {
-//                            response=JSON.parse(response);
-//                            console.log("response-"+JSON.parse(response)+"-");
-                            console.log("response-"+response+"-");
-                            localStorage.setItem("services",JSON.parse(response));
-//                            localStorage.setItem("services",response.services);
-                            }
-			});
-                        
-            }
-
-        }
-        
-        
-    }
-
-
-
-//            getCategoryLists();
-//            getNewArrivals(city);
-//            var type=canDisplayCategory(path);
 $(".city").on('click',function() {
    var city=$(this).attr("data-city");
    setCity(city);
@@ -578,6 +597,8 @@ $(".city").on('click',function() {
 });
 
 function loadFiles(city,type) {
+                       categorySlide(type);
+
                     newArrivalsSlide(city,type);
 //                foodItemSlide(city);
 //                productSlide();
@@ -605,7 +626,7 @@ function loadFiles(city,type) {
                 productPopularTag(city,type);
             }
                 if(list.indexOf(pathh[1])>-1) {
-                getCategoryMenu(val);
+                getCategoryMenu(val,type);
                 }
 }
 
@@ -619,7 +640,6 @@ $('[data-toggle="tooltip"]').tooltip();
 //            var type=canDisplayCategory(path);
 //            var type="Product";
                    navigationBar(path,city,type);
-                   categorySlide(type);
                 loadFiles(city,type);
                 
                footer();
@@ -790,7 +810,7 @@ $(document).add("form #camp-update").ready(function() {
  
 });
 
-$(document).add("#category-product, #category-service").ready(function() {
+$(document).add("#category-Product, #category-Service").ready(function() {
                                   $(".product-link").on('click',function(event){
     console.log("in product link");
     event.preventDefault();

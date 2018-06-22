@@ -1,18 +1,18 @@
 <?php
-require_once 'Classes/Classes.php';
+require_once 'data.php';
     $serv_id=$_REQUEST['serv_id'];
 $vs_id=$_COOKIE["vs_id"];
 
-$vend3=mysqli_query(Crm::con(),"select serv_name,serv_desc,cs_name,serv_img,serv_file from service,cat_sub where service.cs_id=cat_sub.cs_id and serv_id=".$serv_id.";");
+$vend3=Base::generateResult("select serv_name,serv_desc,cs_name,serv_img,serv_file from service,cat_sub where service.cs_id=cat_sub.cs_id and serv_id=".$serv_id.";");
 
-$stmtcat=mysqli_query(Crm::con(),"select cs_id,cs_name from cat_sub,vend_subscription where  vend_subscription.cat_id=cat_sub.cat_id and vs_id=$vs_id ;");  
+$stmtcat=Base::generateResult("select cs_id,cs_name from cat_sub,vend_subscription where  vend_subscription.cat_id=cat_sub.cat_id and vs_id=$vs_id ;");  
 
 if($row=mysqli_fetch_array($vend3)) {
 ?>
 <form class="form-horizontal text-center serv-update" action="vendor-service-update1.php" enctype="multipart/form-data" method="post">
             <!-- /.row -->
         <div class="row">
-            <div class="col-md-4 col-md-offset-2">
+            <div class="col-md-4 offset-md-2">
                 <p class="text-center"><b>Previous Values</p>
             </div>
             <div class="col-md-4">
@@ -74,17 +74,11 @@ if($row=mysqli_fetch_array($vend3)) {
             <img height="150" width="320" class="responsive-img"
                  style="height: 150px !important; width: auto !important;
                  display: block !important; margin-left: auto !important; margin-right: auto !important;"
-                 src="<?php echo Crm::root()."uploads/products-services/".$row[3]; ?>"
+                 src="<?php echo $root."assets/products-services/".$row[3]; ?>"
             onError="this.onerror=null;this.src='http://www.homebiz365.in/uploads/images/small.png';" />
             </div>
-                <div class="custom-file col-md-4">
-                    <div class="chip">
-                      <span>Image</span>
-                      <input type="file" class="custom-file-input" name="file" id="file">
-                    </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
+                <div class="form-group col-md-4">
+  <input type="file" class="form-control" name="file" id="customFile">
                 <div class="row">
                     <em>Note: The image size should not be more than 1 MB</em>
                 </div>

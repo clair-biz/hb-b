@@ -12,7 +12,7 @@ if($row=mysqli_fetch_array($vend3)) {
     //$img="uploads/products-services/$row[3]";
 ?>
 
-    <form class="form-horizontal text-center" id="camp-update" action="vendor-campaign-update1.php" method="post">
+    <form class="form-horizontal text-center" id="camp-update" method="post">
         <div class="row justify-content-center mb-2" >
             <h4 class="text-center col" ><?php echo "Update ".$row["camp_name"];?></h4>
         </div>

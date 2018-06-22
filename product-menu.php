@@ -42,6 +42,7 @@ while($row= mysqli_fetch_array($res)) {
         <div class="card-header p-3">Products</div>
     </div>
     <?php
+    if(!empty($list)) {
                     foreach ($list as $item) {
 //                        if($item["cat_name"]!="Food Items" && $item["cat_name"]!="Bakery Items") {
 //                        echo json_encode($item)."<br/><br />";
@@ -94,6 +95,7 @@ if(array_search($item["cat_name"],$cat_name)>-1)
     </div>
   </div>
 <?php
+    }
     }
                     ?>
 </div>
